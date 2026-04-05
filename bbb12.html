@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For my side</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ffb3c1;
+            --bg: #fff0f3;
+        }
+
+        body {
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Segoe UI', cursive, sans-serif;
+            overflow: hidden;
+        }
+
+        /* The Surprise Box */
+        .box-container {
+            position: relative;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .lid {
+            width: 120px;
+            height: 30px;
+            background: var(--primary);
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            border-radius: 5px;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 11;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background: var(--primary);
+            position: relative;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .box::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background: var(--secondary);
+            left: 40px;
+        }
+
+        /* The Hidden Content */
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            text-align: center;
+            opacity: 0;
+            transition: all 1s ease-in-out;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .crush-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 8px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .message h1 {
+            color: #c9184a;
+            font-size: 2.5rem;
+            margin: 10px 0;
+            text-shadow: 2px 2px #fff;
+        }
+
+        .message p {
+            color: #590d22;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        .revealed .lid {
+            transform: translateY(-150px) rotate(-20deg);
+            opacity: 0;
+        }
+
+        .revealed .content {
+            transform: translate(-50%, -60%) scale(1);
+            opacity: 1;
+        }
+
+        .revealed .box-container {
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--primary);
+            animation: fly 3s linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        #hint {
+            color: var(--primary);
+            margin-top: 20px;
+            font-weight: bold;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box-container" onclick="revealSurprise()">
+        <div class="lid" id="lid"></div>
+        <div class="box"></div>
+    </div>
+    
+    <p id="hint">Tap the gift to open!</p>
+
+    <div class="content" id="content">
+        <img src="crush.jpg" alt="Happy Birthday♥︎" class="crush-photo">
+        <div class="message">
+            <h1>Happy Birthday! Ashika ✨</h1>
+            <p>♥︎Wishing a very happy birthday to one of my favorite people ♥︎ And Hope your day is as amazing/beautiful as you are ♥︎ . <br>♥︎ I hope your year is as beautiful as you are♥︎.</p>
+        </div>
+    </div>
+
+    <script>
+        function revealSurprise() {
+            document.body.classList.add('revealed');
+            document.getElementById('hint').style.display = 'none';
+            
+            // Create Heart Shower
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
